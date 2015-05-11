@@ -1,0 +1,7 @@
+{
+  "extension": ".json",
+  "schemaPrefix": "_schema",
+  "defaultPrefix": "config-default",
+  "defaultEnv": "local",
+  "configDir": "my-configs"
+}
