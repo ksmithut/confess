@@ -59,6 +59,22 @@ multiple environment configuration files, such as `test` and `production`. Any
 configuration options set in these files with override those in default and the
 schema defaults.
 
+The object that gets returned is the `convict` config object. So to get a config
+value, just use it like you would in `convict`.
+
+```js
+'use strict';
+
+var config = require('confess');
+
+config.get('port');
+config.get('session.secret');
+
+```
+
+For more documentation on things you can do with the `convict` config object,
+see [their documentation](https://github.com/mozilla/node-convict);
+
 # Configuration
 
 You can override things like the folder and schema filename by putting a
@@ -80,4 +96,4 @@ If anyone would like to add more file extension support, submit an issue or pull
 # Examples
 
 To view example folder/file structures, view the
-[`https://github.com/ksmithut/confess/tree/master/examples`](examples directory).
+[examples directory](https://github.com/ksmithut/confess/tree/master/examples).
