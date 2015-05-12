@@ -99,4 +99,15 @@ describe('confess', function () {
     });
   });
 
+  it('should fail if extension isn\'t supported', function () {
+    cd('test', 'fixtures', 'ext-not-supported');
+    var error;
+    try {
+      getConfig();
+    } catch (exception) {
+      error = exception;
+    }
+    expect(error).to.be.instanceOf(Error);
+  });
+
 });

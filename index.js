@@ -18,7 +18,7 @@ var rcConfig = rc(APP_NAME, {
 });
 
 // Check if extension is supported
-if (!loadFile.supportedExtensions.indexOf(rcConfig.extension) !== -1) {
+if (loadFile.supportedExtensions.indexOf(rcConfig.extension) === -1) {
   throw new Error(
     rcConfig.extension + ' is not a supported config extension for `confess`'
   );
