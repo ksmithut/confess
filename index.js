@@ -14,7 +14,8 @@ var rcConfig = rc(APP_NAME, {
   defaultPrefix: 'default',
   defaultEnv: 'development',
   configDir: 'config',
-  cwd: process.cwd()
+  cwd: process.cwd(),
+  envFile: '.env'
 });
 
 // Check if extension is supported
