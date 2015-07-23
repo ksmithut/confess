@@ -1,6 +1,6 @@
 {
   "name": "confess",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A configuration wrapper around the configuration manager `convict`",
   "main": "index.js",
   "files": [
