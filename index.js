@@ -2,13 +2,13 @@
 
 var path     = require('path');
 var convict  = require('convict');
-var rc       = require('rc');
+var loadRc   = require('rc');
 var loadFile = require('./lib/load-file');
 
 var APP_NAME = require('./package.json').name;
 
 // This loads the .confessrc
-var rcConfig = rc(APP_NAME, {
+var rc = loadRc(APP_NAME, {
   extension: 'js',
   schemaPrefix: 'index',
   defaultPrefix: 'default',
@@ -18,48 +18,38 @@ var rcConfig = rc(APP_NAME, {
   envFile: '.env'
 });
 
+var EXTENSION = rc.extension;
+var CONFIG_DIR = path.resolve(rc.cwd, rc.configDir);
+var SCHEMA_PATH = path.join(CONFIG_DIR, rc.schemaPrefix + '.' + EXTENSION);
+var DEFAULT_PATH = path.join(CONFIG_DIR, rc.defaultPrefix + '.' + EXTENSION);
+
 // Check if extension is supported
-if (loadFile.supportedExtensions.indexOf(rcConfig.extension) === -1) {
+if (!loadFile.supportedExtensions[EXTENSION]) {
   throw new Error(
-    rcConfig.extension + ' is not a supported config extension for `confess`'
+    EXTENSION + ' is not a supported config extension for `confess`'
   );
 }
 
-// The configuration directory for the project
-
-var files = {
-  schema: getFilepath(rcConfig.schemaPrefix),
-  default: getFilepath(rcConfig.defaultPrefix)
-};
-
 // initialize the convict object
-var config = convict(loadFile(files.schema, {
+var config = convict(loadFile(SCHEMA_PATH, {
   env: {
     doc: 'The application environment',
     format: String,
-    default: rcConfig.defaultEnv,
+    default: rc.defaultEnv,
     env: 'NODE_ENV',
     arg: 'env'
   }
 }));
 
 // load the default configuration
-config.load(loadFile(files.default));
+config.load(loadFile(DEFAULT_PATH));
 
 // load the environment configuration
-files.env = getFilepath(config.get('env'));
-config.load(loadFile(files.env));
+var ENV_PATH = path.join(CONFIG_DIR, config.get('env') + '.' + EXTENSION);
+config.load(loadFile(ENV_PATH));
 
 // validate
 config.validate();
 
 // export
 module.exports = config;
-
-function getFilepath(basename) {
-  return path.join(
-    rcConfig.cwd,
-    rcConfig.configDir,
-    basename + '.' + rcConfig.extension
-  );
-}
