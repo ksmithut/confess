@@ -13,6 +13,10 @@
 `confess` is a configuration wrapper around
 [`convict`](https://github.com/mozilla/node-convict).
 
+### Deprecated: Opt to use [`convict`](https://github.com/mozilla/node-convict)
+### directly. If you would like this project to remain, I can transfer rights
+### over to someone who wishes to maintain it, otherwise, I will unpublish it.
+
 ## The problem
 
 Setting up configuration and using configuration seem to be two different
